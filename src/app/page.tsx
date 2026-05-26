@@ -14,7 +14,6 @@ export default function PulseScope() {
           <div className="hidden md:flex items-center gap-8 text-sm text-sky-700">
             <a href="#features" className="hover:text-sky-500 transition-colors">Fonctionnalités</a>
             <a href="#process" className="hover:text-sky-500 transition-colors">Comment ça marche</a>
-            <a href="#testimonial" className="hover:text-sky-500 transition-colors">Témoignages</a>
           </div>
           <a href="#cta" className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors">
             Démarrer gratuitement
@@ -137,27 +136,6 @@ export default function PulseScope() {
         </div>
       </section>
 
-      {/* TESTIMONIAL */}
-      <section id="testimonial" className="py-20 bg-white">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <div className="bg-sky-50 border border-sky-100 rounded-3xl p-10">
-            <div className="flex justify-center mb-4">
-              {"★★★★★".split("").map((s, i) => <span key={i} className="text-sky-400 text-2xl">{s}</span>)}
-            </div>
-            <blockquote className="text-2xl font-medium text-sky-900 mb-6 leading-relaxed" style={{ fontFamily: "var(--font-display)" }}>
-              &ldquo;On a réduit le temps de veille de 15h à 0h. L&apos;équipe reçoit le brief à 8h chaque matin — c&apos;est devenu le rituel de toute la boîte.&rdquo;
-            </blockquote>
-            <div className="flex items-center justify-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-sky-200 flex items-center justify-center font-bold text-sky-700">ML</div>
-              <div className="text-left">
-                <div className="font-semibold text-sky-900">Marie L.</div>
-                <div className="text-sm text-sky-500">CMO, scale-up SaaS B2B</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section id="cta" className="py-20 bg-gradient-to-r from-sky-600 to-blue-700">
         <div className="max-w-3xl mx-auto px-6 text-center">
@@ -165,9 +143,14 @@ export default function PulseScope() {
             Votre premier brief dès demain matin
           </h2>
           <p className="text-sky-100 text-xl mb-10">Configuration en 10 minutes. Résultats dans votre Slack à 8h00.</p>
-          <a href="mailto:hello@wikolabs.com?subject=PulseScope — Demande de démo" className="inline-block bg-white text-sky-600 hover:bg-sky-50 px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-xl">
-            Démarrer gratuitement →
-          </a>
+          <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+            <a href="https://calendly.com/wikolabs" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-sky-600 hover:bg-sky-50 px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-xl">
+              📅 Réserver un créneau →
+            </a>
+            <a href="https://wa.me/261386626100?text=Bonjour%2C%20je%20souhaite%20discuter%20de%20PulseScope%20avec%20Wikolabs." target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-sky-600 hover:bg-sky-50 px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-xl" style={{ background: "#25d366", borderColor: "#25d366" }}>
+              💬 WhatsApp →
+            </a>
+          </div>
           <p className="text-sky-200 text-sm mt-5">Aucune carte bancaire. Résultats en 24h.</p>
         </div>
       </section>
