@@ -1,4 +1,4 @@
-export default function PulseScope() {
+﻿export default function PulseScope() {
   return (
     <div className="min-h-screen" style={{ fontFamily: "var(--font-body)" }}>
 
@@ -166,7 +166,7 @@ export default function PulseScope() {
           </div>
           <p className="text-sm">© 2025 PulseScope — Un produit <a href="https://wikolabs.com" className="text-sky-400 hover:text-sky-200">Wikolabs</a></p>
           <div className="flex gap-6 text-sm">
-            <a href="mailto:hello@wikolabs.com" className="hover:text-sky-100 transition-colors">Contact</a>
+            <a href="mailto:team@wikolabs.com" className="hover:text-sky-100 transition-colors">Contact</a>
             <a href="https://wikolabs.com" className="hover:text-sky-100 transition-colors">Wikolabs</a>
           </div>
         </div>
