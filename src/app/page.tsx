@@ -165,9 +165,12 @@
             <span className="font-semibold text-white">PulseScope</span>
           </div>
           <p className="text-sm">© 2025 PulseScope — Un produit <a href="https://wikolabs.com" className="text-sky-400 hover:text-sky-200">Wikolabs</a></p>
-          <div className="flex gap-6 text-sm">
-            <a href="mailto:team@wikolabs.com" className="hover:text-sky-100 transition-colors">Contact</a>
-            <a href="https://wikolabs.com" className="hover:text-sky-100 transition-colors">Wikolabs</a>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <a href="mailto:team@wikolabs.com" className="hover:text-sky-100 transition-colors">team@wikolabs.com</a>
+            <span>·</span>
+            <a href="tel:+261386626100" className="hover:text-sky-100 transition-colors">+261 38 66 261 00</a>
+            <span>·</span>
+            <a href="https://calendly.com/wikolabs" target="_blank" rel="noopener noreferrer" className="hover:text-sky-100 transition-colors">Prendre RDV</a>
           </div>
         </div>
       </footer>
