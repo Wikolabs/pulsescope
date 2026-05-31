@@ -1,10 +1,11 @@
 version: "3.9"
 
-# PulseScope demo — production-ready POC.
+# pulsescope demo - production-ready POC.
 # 2 services orchestrated:
 #   - pulsescope (Next.js frontend on host port 3001)
 #   - pulsescope-backend (FastAPI Python, internal only on 8000)
-# Internal network so the frontend can reach the backend by service name.
+# Shared external network wkdemo-net (created once by deploy.yml) avoids
+# Docker default address-pool exhaustion across all 47 LP stacks.
 
 services:
   pulsescope-backend:
@@ -15,10 +16,22 @@ services:
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     networks:
+      - wkdemo_net
+
+  pulsescope:
+    image: ghcr.io/wikolabs/pulsescope:latest
+    container_name: pulsescope
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      BACKEND_URL: "http://pulsescope-backend:8000"
+    depends_on:
+      - pulsescope-backend
+    networks:
+      - wkdemo_net
+
+networks:
   wkdemo_net:
     name: wkdemo-net
     external: true
-networks:
-  pulsescope-net:
-    name: pulsescope-net
-    driver: bridge
