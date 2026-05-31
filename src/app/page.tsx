@@ -1,134 +1,167 @@
-﻿export default function PulseScope() {
+﻿"use client";
+
+const P = {
+  name: "PulseScope",
+  tagLabel: "Intelligence de marche · 24h/24 · Automatique",
+  taglines: ["Vos concurrents analyses.", "Votre Slack briefe.", "Avant votre cafe."],
+  taglineAccentIdx: 1,
+  desc: "PulseScope surveille le web 24h/24, analyse avec l'IA et depose une synthese complete dans votre Slack chaque matin a 8h - automatiquement.",
+  accent: "#5B9CF6",
+  accentDim: "rgba(91,156,246,0.1)",
+  accentBorder: "rgba(91,156,246,0.25)",
+  accentGlow: "rgba(91,156,246,0.12)",
+  waText: "PulseScope",
+  navLinks: [
+    { label: "Fonctionnalites", href: "#features" },
+    { label: "Comment ca marche", href: "#process" },
+    { label: "Contact", href: "#cta" },
+  ],
+  metrics: [
+    { value: "15h", label: "economisees / semaine" },
+    { value: "50+", label: "sources surveillees" },
+    { value: "8h00", label: "briefing quotidien" },
+    { value: "100%", label: "automatise" },
+  ],
+  features: [
+    { icon: "magnifier", title: "Veille multi-sources", desc: "Sites concurrents, reseaux sociaux, actualites sectorielles, publications LinkedIn, brevets — surveilles en temps reel." },
+    { icon: "brain", title: "Synthese IA quotidienne", desc: "L'IA resume les faits marquants, identifie les insights actionnables et redige un brief executif en 5 minutes." },
+    { icon: "lightning", title: "Alertes instantanees", desc: "Tendances emergentes, nouvelles campagnes ou opportunites detectees → notification immediate dans votre Slack." },
+  ],
+  steps: [
+    { num: "01", title: "Configurez vos sources", desc: "Ajoutez les domaines concurrents, mots-cles et comptes LinkedIn a surveiller. Interface visuelle, aucun code." },
+    { num: "02", title: "L'agent prend le relais", desc: "PulseScope scrape, analyse et classe chaque signal. Le modele IA filtre le bruit et retient l'essentiel." },
+    { num: "03", title: "Brief dans votre Slack a 8h", desc: "Chaque matin, un message structure arrive dans votre canal : faits du jour, insights cles, actions recommandees." },
+  ],
+  testimonials: [
+    { quote: "Avant PulseScope, mon equipe passait 3h par semaine a compiler des rapports. Maintenant j'ai tout dans Slack a 8h, synthetise et actionnable.", author: "Marc D.", role: "Directeur Commercial, SaaS B2B" },
+    { quote: "On a detecte le lancement d'un concurrent 48h avant tout le monde. Ca nous a permis d'accelerer notre propre sortie produit.", author: "Sophie L.", role: "CEO, Startup Fintech" },
+  ],
+  ctaTitle: "Votre premier brief des demain matin",
+  ctaDesc: "Configuration en 10 minutes. Resultats dans votre Slack a 8h00. Aucune carte bancaire.",
+  ctaPrimary: "Reserver un creneau",
+  footerTagline: "Veille marche IA automatisee pour dirigeants",
+};
+
+export default function Page() {
+  const bg = "#04080F";
+  const bg2 = "#070D1B";
+  const card = "rgba(255,255,255,0.04)";
+  const border = "rgba(255,255,255,0.09)";
+  const gold = "#D4AF37";
+  const goldDim = "rgba(212,175,55,0.1)";
+  const goldBorder = "rgba(212,175,55,0.28)";
+  const txt1 = "#F0EDE6";
+  const txt2 = "#8B9DB5";
+  const txt3 = "#3C5068";
+  const { accent, accentDim, accentBorder, accentGlow } = P;
+
   return (
-    <div className="min-h-screen" style={{ fontFamily: "var(--font-body)" }}>
+    <div style={{ minHeight: "100vh", background: bg, color: txt1 }}>
+      <style>{`
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pulseDot { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.4; transform:scale(1.6); } }
+        .wk-card { transition: background .3s, border-color .3s, transform .35s cubic-bezier(.34,1.2,.64,1); }
+        .wk-card:hover { background: rgba(255,255,255,0.07) !important; border-color: ${accentBorder} !important; transform: translateY(-6px) !important; }
+        .wk-btn { transition: opacity .2s, transform .2s, box-shadow .2s; }
+        .wk-btn:hover { opacity:.9; transform:translateY(-2px); box-shadow:0 12px 32px rgba(212,175,55,.18); }
+        .wk-wa { transition: opacity .2s, transform .2s; }
+        .wk-wa:hover { opacity:.9; transform:translateY(-2px); }
+        .wk-nav-link { color: #8B9DB5; text-decoration:none; font-size:14px; font-weight:500; transition:color .2s; }
+        .wk-nav-link:hover { color: #F0EDE6; }
+        @media(max-width:640px){ .wk-hide-sm{ display:none!important; } .wk-hero-title{ font-size:2.4rem!important; } }
+      `}</style>
 
       {/* NAVBAR */}
-      <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur border-b border-sky-100">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-            </div>
-            <span className="font-bold text-sky-900 text-lg" style={{ fontFamily: "var(--font-display)" }}>PulseScope</span>
+      <nav style={{ position:"sticky", top:0, zIndex:100, background:"rgba(4,8,15,0.82)", backdropFilter:"blur(20px)", borderBottom:`1px solid ${border}`, padding:"0 40px", height:60, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <span style={{ fontSize:18, fontWeight:800, letterSpacing:"-0.5px", color:txt1 }}>
+          {P.name}<span style={{ color:gold }}>.</span>
+        </span>
+        <div style={{ display:"flex", gap:28, alignItems:"center" }}>
+          <div className="wk-hide-sm" style={{ display:"flex", gap:24 }}>
+            {P.navLinks.map(l => <a key={l.label} href={l.href} className="wk-nav-link">{l.label}</a>)}
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm text-sky-700">
-            <a href="#features" className="hover:text-sky-500 transition-colors">Fonctionnalités</a>
-            <a href="#process" className="hover:text-sky-500 transition-colors">Comment ça marche</a>
-          </div>
-          <a href="#cta" className="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors">
-            Démarrer gratuitement
-          </a>
+          <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' className="wk-btn"
+            style={{ background:gold, color:"#04080F", border:"none", borderRadius:8, padding:"8px 18px", fontWeight:700, fontSize:13.5, cursor:"pointer", fontFamily:"inherit" }}>
+            Reserver →
+          </button>
         </div>
       </nav>
 
       {/* HERO */}
-      <section className="pt-32 pb-20 bg-gradient-to-br from-sky-50 via-sky-100 to-blue-100 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-1/4 w-64 h-64 rounded-full bg-sky-500 blur-3xl"></div>
-          <div className="absolute bottom-10 right-1/4 w-96 h-96 rounded-full bg-blue-400 blur-3xl"></div>
+      <section style={{ padding:"100px 40px 80px", maxWidth:1000, margin:"0 auto", textAlign:"center", position:"relative" }}>
+        <div style={{ position:"absolute", top:-60, left:"50%", transform:"translateX(-50%)", width:700, height:600, background:`radial-gradient(ellipse at 50% 30%, ${accentGlow} 0%, transparent 60%)`, pointerEvents:"none" }} />
+        <div style={{ display:"inline-flex", alignItems:"center", gap:8, marginBottom:24, background:accentDim, border:`1px solid ${accentBorder}`, borderRadius:100, padding:"6px 18px", animation:"fadeUp .5s ease both" }}>
+          <span style={{ width:7, height:7, borderRadius:"50%", background:accent, display:"inline-block", animation:"pulseDot 2s ease-in-out infinite" }} />
+          <span style={{ color:accent, fontSize:11.5, fontWeight:700, letterSpacing:"2px", textTransform:"uppercase" }}>{P.tagLabel}</span>
         </div>
-        <div className="max-w-4xl mx-auto px-6 text-center relative">
-          <div className="inline-flex items-center gap-2 bg-sky-100 border border-sky-200 text-sky-700 px-4 py-2 rounded-full text-sm font-medium mb-8">
-            <span className="w-2 h-2 bg-sky-500 rounded-full animate-pulse"></span>
-            Intelligence de marché 24h/24
-          </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-sky-900 leading-tight mb-6" style={{ fontFamily: "var(--font-display)" }}>
-            Vos concurrents analysés.<br />
-            <span className="text-sky-500">Votre Slack briefé.</span><br />
-            Avant votre café.
-          </h1>
-          <p className="text-xl text-sky-700 max-w-2xl mx-auto mb-10 leading-relaxed">
-            PulseScope surveille le web 24h/24, analyse avec l&apos;IA et dépose une synthèse complète dans votre Slack chaque matin à 8h — sans qu&apos;on lui demande.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <a href="#cta" className="bg-sky-500 hover:bg-sky-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all shadow-lg shadow-sky-200 hover:shadow-sky-300">
-              Démarrer la veille →
-            </a>
-            <a href="#process" className="bg-white text-sky-700 border-2 border-sky-200 hover:border-sky-400 px-8 py-4 rounded-xl font-semibold text-lg transition-all">
-              Voir une démo
-            </a>
-          </div>
-
-          {/* Metrics row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { value: "15h", label: "économisées / semaine" },
-              { value: "50+", label: "sources surveillées" },
-              { value: "8h00", label: "livré chaque matin" },
-              { value: "100%", label: "automatisé" },
-            ].map((m) => (
-              <div key={m.label} className="bg-white/80 backdrop-blur rounded-2xl p-5 border border-sky-100 shadow-sm">
-                <div className="text-3xl font-bold text-sky-600 mb-1" style={{ fontFamily: "var(--font-display)" }}>{m.value}</div>
-                <div className="text-xs text-sky-500 font-medium uppercase tracking-wide">{m.label}</div>
-              </div>
-            ))}
-          </div>
+        <h1 className="wk-hero-title" style={{ fontSize:"clamp(2.6rem,6vw,5rem)", fontWeight:700, lineHeight:1.08, letterSpacing:"-0.03em", marginBottom:28, fontFamily:"'Instrument Serif',Georgia,serif", animation:"fadeUp .5s .08s ease both" }}>
+          {P.taglines.map((line, i) => (
+            <span key={i} style={{ display:"block", color:i===P.taglineAccentIdx?accent:txt1, fontStyle:i===P.taglineAccentIdx?"italic":"normal" }}>{line}</span>
+          ))}
+        </h1>
+        <p style={{ fontSize:"1.1rem", color:txt2, lineHeight:1.72, maxWidth:580, margin:"0 auto 48px", animation:"fadeUp .5s .16s ease both" }}>{P.desc}</p>
+        <div style={{ display:"flex", flexWrap:"wrap", justifyContent:"center", gap:14, marginBottom:44, animation:"fadeUp .5s .24s ease both" }}>
+          {P.metrics.map(m => (
+            <div key={m.label} style={{ background:card, border:`1px solid ${border}`, borderRadius:18, padding:"14px 22px", textAlign:"center", minWidth:118 }}>
+              <div style={{ fontSize:"1.7rem", fontWeight:800, color:txt1, letterSpacing:"-1.5px", lineHeight:1 }}>{m.value}</div>
+              <div style={{ fontSize:"0.62rem", color:txt3, textTransform:"uppercase", letterSpacing:"1.5px", marginTop:5 }}>{m.label}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{ display:"flex", flexWrap:"wrap", gap:12, justifyContent:"center", animation:"fadeUp .5s .32s ease both" }}>
+          <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' className="wk-btn"
+            style={{ background:gold, color:"#04080F", border:"none", borderRadius:10, padding:"14px 28px", fontWeight:700, fontSize:15, cursor:"pointer", display:"flex", alignItems:"center", gap:8, fontFamily:"inherit" }}>
+            📅 {P.ctaPrimary}
+          </button>
+          <a href={`https://wa.me/261386626100?text=Bonjour%2C%20je%20souhaite%20discuter%20de%20${encodeURIComponent(P.waText)}%20avec%20Wikolabs.`}
+            target="_blank" rel="noopener noreferrer" className="wk-wa"
+            style={{ background:"#25d366", color:"#fff", borderRadius:10, padding:"14px 28px", fontWeight:700, fontSize:15, textDecoration:"none", display:"flex", alignItems:"center", gap:8 }}>
+            💬 WhatsApp
+          </a>
         </div>
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-sky-900 mb-4" style={{ fontFamily: "var(--font-display)" }}>
-              Tout ce que votre équipe fait manuellement,<br />
-              <span className="text-sky-500">PulseScope le fait en continu</span>
-            </h2>
-            <p className="text-sky-600 text-lg max-w-xl mx-auto">Sans abonnement à 15 outils. Sans stagiaire dédié à la veille.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "🔍",
-                title: "Veille multi-sources",
-                desc: "Sites web concurrents, réseaux sociaux, actualités sectorielles, publications LinkedIn, brevets — tout est surveillé en temps réel.",
-                color: "bg-sky-50 border-sky-100",
-              },
-              {
-                icon: "🧠",
-                title: "Synthèse IA quotidienne",
-                desc: "L&apos;IA résume les faits marquants, identifie les insights actionnables et rédige un brief exécutif prêt à consommer en 5 minutes.",
-                color: "bg-blue-50 border-blue-100",
-              },
-              {
-                icon: "⚡",
-                title: "Alertes instantanées",
-                desc: "Tendances émergentes, nouvelles campagnes concurrentes ou opportunités marché détectées → notification immédiate dans votre Slack.",
-                color: "bg-cyan-50 border-cyan-100",
-              },
-            ].map((f) => (
-              <div key={f.title} className={`${f.color} border rounded-2xl p-8 hover:shadow-md transition-shadow`}>
-                <div className="text-4xl mb-4">{f.icon}</div>
-                <h3 className="text-xl font-bold text-sky-900 mb-3" style={{ fontFamily: "var(--font-display)" }}>{f.title}</h3>
-                <p className="text-sky-600 leading-relaxed" dangerouslySetInnerHTML={{ __html: f.desc }} />
-              </div>
-            ))}
-          </div>
+      <section id="features" style={{ padding:"80px 40px", maxWidth:1100, margin:"0 auto" }}>
+        <div style={{ textAlign:"center", marginBottom:52 }}>
+          <p style={{ fontSize:"0.68rem", color:gold, letterSpacing:"3px", textTransform:"uppercase", fontWeight:700, marginBottom:14 }}>Fonctionnalites</p>
+          <h2 style={{ fontSize:"clamp(1.8rem,3.5vw,2.8rem)", fontWeight:700, color:txt1, letterSpacing:"-0.02em", fontFamily:"'Instrument Serif',Georgia,serif", lineHeight:1.15 }}>
+            Tout automatise, <em style={{ fontStyle:"italic", color:gold }}>rien a gerer</em>
+          </h2>
+        </div>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:20 }}>
+          {P.features.map((f, i) => (
+            <div key={f.title} className="wk-card" style={{ background:card, border:`1px solid ${border}`, borderRadius:20, padding:"28px 28px 24px", position:"relative", overflow:"hidden" }}>
+              <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:`linear-gradient(90deg,transparent,${i===0?gold:accent},transparent)`, opacity:.6 }} />
+              <div style={{ fontSize:"2rem", marginBottom:16 }}>{i===0?"🔍":i===1?"🧠":"⚡"}</div>
+              <h3 style={{ fontSize:"1.05rem", fontWeight:700, color:txt1, marginBottom:10 }}>{f.title}</h3>
+              <p style={{ fontSize:"0.88rem", color:txt2, lineHeight:1.7, margin:0 }}>{f.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="process" className="py-20 bg-sky-50">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-sky-900 mb-4" style={{ fontFamily: "var(--font-display)" }}>
-              En place en 10 minutes
+      <section id="process" style={{ padding:"80px 40px", background:bg2 }}>
+        <div style={{ maxWidth:860, margin:"0 auto" }}>
+          <div style={{ textAlign:"center", marginBottom:48 }}>
+            <p style={{ fontSize:"0.68rem", color:gold, letterSpacing:"3px", textTransform:"uppercase", fontWeight:700, marginBottom:14 }}>Comment ca marche</p>
+            <h2 style={{ fontSize:"clamp(1.8rem,3.5vw,2.8rem)", fontWeight:700, color:txt1, letterSpacing:"-0.02em", fontFamily:"'Instrument Serif',Georgia,serif" }}>
+              En place en <em style={{ fontStyle:"italic", color:accent }}>10 minutes</em>
             </h2>
-            <p className="text-sky-600 text-lg">Aucune intégration technique. Juste configurer et recevoir.</p>
           </div>
-          <div className="space-y-6">
-            {[
-              { step: "01", title: "Configurez vos sources", desc: "Ajoutez les domaines concurrents, mots-clés sectoriels et comptes LinkedIn à surveiller. Interface visuelle, aucun code." },
-              { step: "02", title: "L'agent prend le relais", desc: "PulseScope scrape, analyse et classe automatiquement chaque signal. Le modèle IA filtre le bruit et retient l'essentiel." },
-              { step: "03", title: "Brief dans votre Slack à 8h", desc: "Chaque matin, un message structuré arrive dans votre canal Slack préféré : faits du jour, insights clés, actions recommandées." },
-            ].map((s) => (
-              <div key={s.step} className="flex gap-6 bg-white rounded-2xl p-7 border border-sky-100 shadow-sm">
-                <div className="flex-shrink-0 w-14 h-14 bg-sky-500 text-white rounded-xl flex items-center justify-center font-bold text-lg" style={{ fontFamily: "var(--font-display)" }}>
-                  {s.step}
+          <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
+            {P.steps.map((s, i) => (
+              <div key={s.num} style={{ display:"flex", alignItems:"flex-start", gap:22, background:card, border:`1px solid ${border}`, borderRadius:18, padding:"22px 26px" }}>
+                <div style={{ flexShrink:0, width:46, height:46, background:i===0?goldDim:accentDim, border:`1px solid ${i===0?goldBorder:accentBorder}`, borderRadius:14, display:"flex", alignItems:"center", justifyContent:"center", color:i===0?gold:accent, fontWeight:800, fontSize:15 }}>
+                  {s.num}
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-sky-900 mb-2" style={{ fontFamily: "var(--font-display)" }}>{s.title}</h3>
-                  <p className="text-sky-600">{s.desc}</p>
+                  <h3 style={{ fontSize:"1rem", fontWeight:700, color:txt1, marginBottom:6, lineHeight:1.3 }}>{s.title}</h3>
+                  <p style={{ fontSize:"0.87rem", color:txt2, lineHeight:1.7, margin:0 }}>{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -136,41 +169,60 @@
         </div>
       </section>
 
+      {/* TESTIMONIALS */}
+      <section style={{ padding:"80px 40px", maxWidth:900, margin:"0 auto" }}>
+        <div style={{ textAlign:"center", marginBottom:44 }}>
+          <p style={{ fontSize:"0.68rem", color:gold, letterSpacing:"3px", textTransform:"uppercase", fontWeight:700, marginBottom:14 }}>Temoignages</p>
+          <h2 style={{ fontSize:"clamp(1.6rem,3vw,2.4rem)", fontWeight:700, color:txt1, fontFamily:"'Instrument Serif',Georgia,serif" }}>Ce qu'en disent nos clients</h2>
+        </div>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))", gap:20 }}>
+          {P.testimonials.map((t, i) => (
+            <div key={i} style={{ background:card, border:`1px solid ${border}`, borderLeft:`3px solid ${i===0?gold:accent}`, borderRadius:20, padding:"26px 26px 22px" }}>
+              <p style={{ fontSize:"0.92rem", color:txt2, lineHeight:1.75, fontStyle:"italic", marginBottom:20 }}>&ldquo;{t.quote}&rdquo;</p>
+              <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                <div style={{ width:38, height:38, borderRadius:"50%", background:i===0?goldDim:accentDim, border:`1px solid ${i===0?goldBorder:accentBorder}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>👤</div>
+                <div>
+                  <div style={{ fontSize:"0.9rem", fontWeight:700, color:txt1 }}>{t.author}</div>
+                  <div style={{ fontSize:"0.72rem", color:txt3 }}>{t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
-      <section id="cta" className="py-20 bg-gradient-to-r from-sky-600 to-blue-700">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4" style={{ fontFamily: "var(--font-display)" }}>
-            Votre premier brief dès demain matin
-          </h2>
-          <p className="text-sky-100 text-xl mb-10">Configuration en 10 minutes. Résultats dans votre Slack à 8h00.</p>
-          <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-            <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' type="button" target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-sky-600 hover:bg-sky-50 px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-xl">
-              📅 Réserver un créneau →
+      <section id="cta" style={{ padding:"0 40px 100px", maxWidth:860, margin:"0 auto" }}>
+        <div style={{ background:card, border:`1px solid ${goldBorder}`, borderRadius:24, padding:"64px 48px", textAlign:"center", backgroundImage:`radial-gradient(ellipse at 50% 0%, ${goldDim} 0%, transparent 65%)` }}>
+          <p style={{ fontSize:"0.68rem", color:gold, letterSpacing:"3px", textTransform:"uppercase", fontWeight:700, marginBottom:16 }}>Demarrer</p>
+          <h2 style={{ fontSize:"clamp(1.8rem,3.5vw,2.8rem)", fontWeight:700, color:txt1, marginBottom:14, letterSpacing:"-0.02em", fontFamily:"'Instrument Serif',Georgia,serif" }}>{P.ctaTitle}</h2>
+          <p style={{ color:txt2, fontSize:"1rem", marginBottom:36, lineHeight:1.7 }}>{P.ctaDesc}</p>
+          <div style={{ display:"flex", flexWrap:"wrap", gap:12, justifyContent:"center" }}>
+            <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' className="wk-btn"
+              style={{ background:gold, color:"#04080F", border:"none", borderRadius:10, padding:"14px 28px", fontWeight:700, fontSize:15, cursor:"pointer", display:"flex", alignItems:"center", gap:8, fontFamily:"inherit" }}>
+              📅 {P.ctaPrimary}
             </button>
-            <a href="https://wa.me/261386626100?text=Bonjour%2C%20je%20souhaite%20discuter%20de%20PulseScope%20avec%20Wikolabs." target="_blank" rel="noopener noreferrer" className="inline-block bg-white text-sky-600 hover:bg-sky-50 px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-xl" style={{ background: "#25d366", borderColor: "#25d366" }}>
-              💬 WhatsApp →
+            <a href={`https://wa.me/261386626100?text=Bonjour%2C%20je%20souhaite%20discuter%20de%20${encodeURIComponent(P.waText)}%20avec%20Wikolabs.`}
+              target="_blank" rel="noopener noreferrer" className="wk-wa"
+              style={{ background:"#25d366", color:"#fff", borderRadius:10, padding:"14px 28px", fontWeight:700, fontSize:15, textDecoration:"none", display:"flex", alignItems:"center", gap:8 }}>
+              💬 WhatsApp
             </a>
           </div>
-          <p className="text-sky-200 text-sm mt-5">Aucune carte bancaire. Résultats en 24h.</p>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-sky-900 text-sky-300 py-10">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-sky-500 flex items-center justify-center">
-              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-            </div>
-            <span className="font-semibold text-white">PulseScope</span>
+      <footer style={{ borderTop:`1px solid ${border}`, padding:"32px 40px" }}>
+        <div style={{ maxWidth:1200, margin:"0 auto", display:"flex", flexWrap:"wrap", justifyContent:"space-between", alignItems:"center", gap:16 }}>
+          <div>
+            <span style={{ fontWeight:800, fontSize:16, color:txt1 }}>{P.name}</span><span style={{ color:gold }}>.</span>
+            <span style={{ display:"block", fontSize:12, color:txt3, marginTop:3 }}>{P.footerTagline}</span>
           </div>
-          <p className="text-sm">© 2025 PulseScope — Un produit <a href="https://wikolabs.com" className="text-sky-400 hover:text-sky-200">Wikolabs</a></p>
-          <div className="flex flex-wrap gap-4 text-sm">
-            <a href="mailto:team@wikolabs.com" className="hover:text-sky-100 transition-colors">team@wikolabs.com</a>
-            <span>·</span>
-            <a href="tel:+261386626100" className="hover:text-sky-100 transition-colors">+261 38 66 261 00</a>
-            <span>·</span>
-            <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' type="button" target="_blank" rel="noopener noreferrer" className="hover:text-sky-100 transition-colors" style={{cursor:"pointer",background:"none",border:"none",padding:0,font:"inherit",color:"inherit",textDecoration:"none"}}>Prendre RDV</button>
+          <p style={{ fontSize:13, color:txt3 }}>© 2026 {P.name} — Un produit <a href="https://wikolabs.com" style={{ color:txt2, textDecoration:"none" }}>Wikolabs</a></p>
+          <div style={{ display:"flex", flexWrap:"wrap", gap:16, fontSize:13, alignItems:"center" }}>
+            <a href="mailto:team@wikolabs.com" style={{ color:txt3, textDecoration:"none" }}>team@wikolabs.com</a>
+            <span style={{ color:txt3 }}>·</span>
+            <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' style={{ background:"none", border:"none", color:txt3, fontSize:13, cursor:"pointer", fontFamily:"inherit", padding:0 }}>Prendre RDV</button>
           </div>
         </div>
       </footer>
