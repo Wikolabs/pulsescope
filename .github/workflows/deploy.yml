@@ -36,12 +36,4 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "$VM_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" \
-            "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin \
-            && docker pull ghcr.io/wikolabs/pulsescope:latest \
-            && (docker stop pulsescope 2>/dev/null; docker rm pulsescope 2>/dev/null; true) \
-            && docker run -d --name pulsescope -p 3001:3000 \
-                 -e GROQ_API_KEY='$GROQ_API_KEY' \
-                 -e GEMINI_API_KEY='$GEMINI_API_KEY' \
-                 --restart unless-stopped ghcr.io/wikolabs/pulsescope:latest \
-            && echo 'Deployed pulsescope on port 3001'"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin && docker pull ghcr.io/wikolabs/pulsescope:latest && (docker stop pulsescope 2>/dev/null; docker rm pulsescope 2>/dev/null; true) && docker run -d --name pulsescope -p 3001:3000 -e GROQ_API_KEY='$GROQ_API_KEY' -e GEMINI_API_KEY='$GEMINI_API_KEY' --restart unless-stopped ghcr.io/wikolabs/pulsescope:latest && echo 'Deployed pulsescope on port 3001'"
