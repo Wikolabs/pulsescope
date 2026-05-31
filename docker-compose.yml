@@ -15,21 +15,9 @@ services:
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     networks:
-      - pulsescope-net
-
-  pulsescope:
-    image: ghcr.io/wikolabs/pulsescope:latest
-    container_name: pulsescope
-    restart: unless-stopped
-    ports:
-      - "3001:3000"
-    environment:
-      BACKEND_URL: "http://pulsescope-backend:8000"
-    depends_on:
-      - pulsescope-backend
-    networks:
-      - pulsescope-net
-
+  wkdemo_net:
+    name: wkdemo-net
+    external: true
 networks:
   pulsescope-net:
     name: pulsescope-net
