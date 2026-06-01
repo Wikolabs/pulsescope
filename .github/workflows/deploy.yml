@@ -45,8 +45,8 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "mkdir -p ~/wk/pulsescope"
           # Ship the compose file
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no docker-compose.yml "$VM_USER@$VM_HOST:~/wk/pulsescope/docker-compose.yml"
-          # Step A: ensure shared network exists
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker network inspect wkdemo-net >/dev/null 2>&1 || docker network create wkdemo-net" || echo "network step result: $?"
+          # Step A: prune unused networks (free address pool) + ensure shared net exists
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker network prune -f; docker network inspect wkdemo-net >/dev/null 2>&1 || docker network create wkdemo-net"
           # Step B: login to GHCR on VM
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin"
           # Step C: stop any legacy single container (ignore errors)
