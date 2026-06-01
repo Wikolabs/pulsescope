@@ -45,5 +45,13 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "mkdir -p ~/wk/pulsescope"
           # Ship the compose file
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no docker-compose.yml "$VM_USER@$VM_HOST:~/wk/pulsescope/docker-compose.yml"
-          # Login to GHCR on VM, stop any legacy single container, pull new images, bring stack up
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "cd ~/wk/pulsescope && echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin && (docker network create wkdemo-net 2>/dev/null || true) && (docker stop pulsescope pulsescope-backend 2>/dev/null; docker rm pulsescope pulsescope-backend 2>/dev/null; true) && GROQ_API_KEY='$GROQ_API_KEY' GEMINI_API_KEY='$GEMINI_API_KEY' docker compose pull && GROQ_API_KEY='$GROQ_API_KEY' GEMINI_API_KEY='$GEMINI_API_KEY' docker compose up -d && echo 'Deployed pulsescope stack (frontend on 3001, backend internal)'"
+          # Step A: ensure shared network exists
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker network inspect wkdemo-net >/dev/null 2>&1 || docker network create wkdemo-net" || echo "network step result: $?"
+          # Step B: login to GHCR on VM
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin"
+          # Step C: stop any legacy single container (ignore errors)
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker stop pulsescope pulsescope-backend 2>/dev/null || true; docker rm pulsescope pulsescope-backend 2>/dev/null || true"
+          # Step D: pull + up via docker compose
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "cd ~/wk/pulsescope && GROQ_API_KEY='$GROQ_API_KEY' GEMINI_API_KEY='$GEMINI_API_KEY' docker compose pull"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "cd ~/wk/pulsescope && GROQ_API_KEY='$GROQ_API_KEY' GEMINI_API_KEY='$GEMINI_API_KEY' docker compose up -d"
+          echo "Deployed pulsescope stack (frontend on 3001, backend internal)"
