@@ -45,14 +45,8 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "mkdir -p ~/wk/pulsescope"
           # Ship the compose file
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no docker-compose.yml "$VM_USER@$VM_HOST:~/wk/pulsescope/docker-compose.yml"
-          # Step A: cleanup VM (verbose, never fails)
-          set +e
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker ps -a --format '{{.Names}}' | head -30; echo '---NETS---'; docker network ls; echo '---POOL---'" 2>&1
-          echo "Step A inventory exit: $?"
-          # Step A2: aggressive cleanup
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker stop \$(docker ps -aq) 2>/dev/null; docker rm -f \$(docker ps -aq) 2>/dev/null; docker network prune -f; docker network create wkdemo-net" 2>&1
-          echo "Step A2 cleanup exit: $?"
-          set -e
+          # Step A: ensure wkdemo-net exists (VM was cleaned in a previous deploy)
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker network inspect wkdemo-net >/dev/null 2>&1 || docker network create wkdemo-net"
           # Step B: login to GHCR on VM
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin"
           # Step C: stop any legacy single container (ignore errors)
