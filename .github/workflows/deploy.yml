@@ -45,8 +45,14 @@ jobs:
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "mkdir -p ~/wk/pulsescope"
           # Ship the compose file
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no docker-compose.yml "$VM_USER@$VM_HOST:~/wk/pulsescope/docker-compose.yml"
-          # Step A: cleanup archived containers + their networks, then ensure wkdemo-net exists
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" 'set -x; docker stop appcraft callnotes medicaliqa leadforge booklync entityresolution perfoptiq uxforge sentimentlive semantiq nexuscrm datavoice datastream graphfraud 2>/dev/null; docker rm -f appcraft callnotes medicaliqa leadforge booklync entityresolution perfoptiq uxforge sentimentlive semantiq nexuscrm datavoice datastream graphfraud 2>/dev/null; docker network ls --format "{{.Name}}" | grep -E "^(appcraft|callnotes|medicaliqa|leadforge|booklync|entityresolution|perfoptiq|uxforge|sentimentlive|semantiq|nexuscrm|datavoice|datastream|graphfraud|pulsescope|leadforge|reachwave|scoreflow|booklync|propgenai|retainiq|helpiqai|triageiq|onboardai|callnotes|datavoice|reportly|forecastiq|nexuscrm|semantiq|personaai|datastream|modelops|docextract|detectvision|bimflow|geomapai|uxforge|appcraft|perfoptiq|seowave|edgeai|iotwatch|visioncam|maintainiq|fraudguard|churnpredict|ragai|recsys|sentimentlive|agentflow|causalai|entityresolution|imagegen|medicaliqa|graphfraud|bi-wikolabs-lp|okaiz-lp|piskid-lp|wefreep|patrimai-lp-base)-net$" | xargs -r docker network rm 2>/dev/null; docker network prune -f; docker network inspect wkdemo-net >/dev/null 2>&1 || docker network create wkdemo-net; docker network ls | head -20'
+          # Step A: cleanup VM (verbose, never fails)
+          set +e
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker ps -a --format '{{.Names}}' | head -30; echo '---NETS---'; docker network ls; echo '---POOL---'" 2>&1
+          echo "Step A inventory exit: $?"
+          # Step A2: aggressive cleanup
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "docker stop \$(docker ps -aq) 2>/dev/null; docker rm -f \$(docker ps -aq) 2>/dev/null; docker network prune -f; docker network create wkdemo-net" 2>&1
+          echo "Step A2 cleanup exit: $?"
+          set -e
           # Step B: login to GHCR on VM
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin"
           # Step C: stop any legacy single container (ignore errors)
