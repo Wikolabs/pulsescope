@@ -66,7 +66,7 @@ export default function DemoPage() {
     }
     setLoading(true);
     try {
-      const r = await fetch("/api/demo", {
+      const r = await fetch("/offers/pulsescope/demo/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ competitors, lang }),
